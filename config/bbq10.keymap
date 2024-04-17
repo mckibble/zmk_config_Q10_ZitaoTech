@@ -1,9 +1,12 @@
-/*
+ /*
  * Copyright (c) 2023 ZitaoTech
- *
  * SPDX-License-Identifier: MIT
+ * 
+ * Derived from:
+ * https://github.com/ZitaoTech/zmk_config_Q10/blob/main/config/bbq10.keymap
+ * https://github.com/Drexel-Macintosh/BlueBerry_Q10/blob/main/config/bbq10.keymap
+ * https://github.com/moni11811/zmk-config_9900/blob/main/config/bb9900.keymap
  */
-
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
@@ -11,11 +14,23 @@
 #include <dt-bindings/zmk/mouse.h>
 #include <dt-bindings/zmk/backlight.h>
 #include <dt-bindings/zmk/ext_power.h>
+ 
+#define NUM 1
+#define ALT 2
+#define SYM 3
 
-   
-#define SYM 1
-#define UPPER 2
 
+// Standard Behavior Configuration:
+&mt {
+    flavor = "tap-preferred";
+    tapping-term-ms = <200>;
+};
+&sk{
+    release-after-ms = <2500>;
+};
+&sl {
+    release-after-ms = <2500>;
+};
 
 / {
     behaviors {
@@ -27,6 +42,87 @@
         };
     };
     behaviors {
+	    KPM: behavior_KPM {
+            compatible = "zmk,behavior-hold-tap";
+            label = "KPM";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <400>;
+            bindings = <&msc>, <&kp>;
+        };
+    };
+    behaviors {
+        hm2: homerow_mods_2 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <500>;
+            bindings = <&ext_power &kp>;
+        };
+    };
+    behaviors {
+	alt_to: behavior_alt_to {
+            compatible = "zmk,behavior-hold-tap";
+            label = "alt_to";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <300>;
+            bindings = <&kp>, <&to>;
+        };
+    };
+    
+    behaviors {
+        tap: tap {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            // By default, macros will tap each behavior in the bindings list,
+            // so this will tap "&kp <param1>".
+            bindings = <&macro_param_1to1 &kp MACRO_PLACEHOLDER>;
+        };
+    
+        mtt: mod_tap_tap {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <125>;
+            require-prior-idle-ms = <125>;
+            bindings = <&tap>, <&tap>;
+        };
+    };
+
+    behaviors {
+        SHFT: tap_dance_1 {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <500>;
+            bindings = <&sk LSHFT>, <&kp CLCK>;
+        };
+    };
+    behaviors {
+        NUML: tap_dance_numl {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <500>;
+            bindings = <&sl NUM>, <&to NUM>;
+        };
+    };
+    behaviors {
+        ALTL: tap_dance_altl {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <400>;
+            bindings = <&sl ALT>, <&to ALT>;
+        };
+    };
+    behaviors {
+        SYML tap_dance_syml {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <500>;
+            bindings = <&sl SYM>, <&to SYM>;
+        };
+    };
+    behaviors {
         hm: homerow_mods {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -35,54 +131,85 @@
         };
     };
 
+
+
+
     keymap {
         compatible = "zmk,keymap";
-
         default_layer {
-
             bindings = <
-//         --------------------------------------------------------------------------------------------------------------------------         
-//         |    Shoulder Key1    |                                                                             |    Shoulder Key2    |     
-// |         Call key      |      Blackberry Key        |    Trackpad    |             Back Key                |             Endcall Key          |
-// |     Q      |     W    |     E    |     R    |      T      |       Y        |       U        |        I        |       O      |      P        |     
-// |     A      |     S    |     D    |     F    |      G      |       H        |       J        |        K        |       L      |      ←        |  
-// |     alt    |     Z    |     X    |     C    |      V      |       B        |       N        |        M        |       $      |    Enter      |   
-//        |         aA     |         0           |           SPACE              |         SYM         |        aA          |       
-//        -----------------------------------------------------------------------------------------------------------------
 
-                 &mkp LCLK                                                                                          &mkp RCLK
-    &kp CLCK                &kp LGUI                            &mkp LCLK                          &mt ESC K_BACK                    &kp TAB
-    &kp Q        &kp W      &kp E       &kp R     &kp T         &kp Y             &kp U            &kp I            &kp O            &kp P
-    &kp A        &kp S      &kp D       &kp F     &kp G         &kp H             &kp J            &kp K            &kp L            &kp BSPC
-    &kp LSHFT    &kp Z      &kp X       &kp C     &kp V         &kp B             &kp N            &kp M            &mt NUHS DOLLAR  &kp ENTER
-    &kp LCTRL               &kp LALT                            &kp SPACE                          &tog SYM                          &tog UPPER
+        /*
+         *    KEYBOARD LAYOUT - ASCII by KyleBing
+         *
+                              ---------------------                                                                -------------------------
+                             |    Shoulder Key1    |                                                              |      Shoulder Key2      |
+                 ---------------------------------------------------------------------------------------------------------------------------------------------------
+                |        Call key        |   Blackberry Key    |              Trackpad            |             Back Key           |          Endcall Key           |
+                -----------------------------------------------------------------------------------------------------------------------------------------------------
+                |     Q      |     W     |     E    |     R    |         T       |       Y        |        U       |       I       |        O        |      P       |
+                -----------------------------------------------------------------------------------------------------------------------------------------------------
+                |     A      |     S     |     D    |     F    |         G       |       H        |        J       |       K       |        L        |  Backspace   |
+                -----------------------------------------------------------------------------------------------------------------------------------------------------
+                 \    alt    |     Z     |     X    |     C    |         V       |       B        |        N       |       M       |        $        |    Enter    /
+                   -----------------------------------------------------------------------------------------------------------------------------------------------
+                              \      aA        |       0        |                    SPACE                  |          SYM          |         aA    /
+                                -------------------------------------------------------------------------------------------------------------------
+        */
+                                        &sk LALT                                                        &mkp RCLK
+		                    &sk  LCTRL          &sk LGUI            &mkp LCLK               &kp ESC             &kp TAB
+
+                &kp Q       &kp W       &kp E       &kp R       &kp T       &kp Y       &kp U       &kp I       &kp O       &kp P
+                &kp A       &kp S       &kp D       &kp F       &kp G       &kp H       &kp J       &kp K       &kp L       &kp BSPC
+                &ALTL ALT   &kp Z       &kp X       &kp C       &kp V       &kp B       &kp N       &kp M       &kp DLLR    &kp RET
+
+                            &SHFT       &NUML NUM                      &kp SPACE                    &SYML SYM   &SHFT
+
             >;
         };
 
 
-        sym_layer {
-
+        num_layer {
             bindings = <        
-                 &kp C_VOL_UP                                                                                       &kp C_VOL_DN
-    &kp PSCRN               &kp C_AC_SEARCH                     &mkp LCLK                          &kp F5                            &kp F12 
-    &kp HASH     &kp N1     &kp N2      &kp N3    &mt LBKT LPAR &mt RBKT RPAR     &kp UNDER        &kp MINUS        &kp PLUS         &kp AT
-    &kp STAR     &kp N4     &kp N5      &kp N6    &kp SLASH     &kp COLON         &kp SEMI         &kp APOS         &kp DQT          &kp DEL
-    &kp LSHFT    &kp N7     &kp N8      &kp N9    &kp QMARK     &kp EXCL          &kp COMMA        &kp DOT          &kp C_MUTE       &kp ENTER
-    &kp LCTRL               &kp N0                              &kp SPACE                          &tog SYM                          &tog UPPER
+                                        &sk LALT                                                        &mkp RCLK
+		                    &sk  LCTRL          &sk LGUI            &mkp LCLK               &kp ESC             &kp TAB
+
+                &kp HASH    &kp N1      &kp N2      &kp N3      &kp LPAR    &kp RPAR    &kp UNDER   &kp MINUS   &kp PLUS    &kp AT
+                &kp STAR    &kp N4      &kp N5      &kp N6      &kp SLASH   &kp COLON   &kp SEMI    &kp APOS    &kp DQT     &kp BSPC
+                &ALTL ALT   &kp N7      &kp N8      &kp N9      &kp QMARK   &kp EXCL    &kp COMMA   &kp DOT     &kp DLLR    &kp RET
+
+                            &to DEFAULT &kp N0                         &kp SPACE                    &SYML SYM   &SHFT
+
             >;
         };
 
-        upper_layer {
-
+        
+        alt_layer {
             bindings = <
-                 &msc SCRL_UP                                                                                       &msc SCRL_DOWN
-    &bt BT_SEL 0            &bt BT_SEL 1                             &td0                           &bt BT_SEL 2                     &bt BT_SEL 3
-    &none        &kp UP     &none       &sys_reset &ext_power EP_TOG &none         &kp LT           &kp GT          &kp PIPE         &kp KP_EQUAL
-    &kp LEFT     &kp DOWN   &kp RIGHT   &none      &kp BSLH          &kp AMPS      &kp LBRC         &kp RBRC        &kp CARET        &kp BSPC
-    &kp LSHFT    &none      &none       &none      &bl BL_DEC        &bl BL_TOG    &bl BL_INC       &none           &bootloader      &kp ENTER
-    &kp LCTRL               &kp LALT                                 &hm OUT_TOG SPACE              &tog SYM                         &tog UPPER
+                                        &sk LALT                                                        &mkp RCLK
+		                    &sk  LCTRL          &sk LGUI            &mkp LCLK               &kp ESC             &kp TAB
+
+                &kp HOME    &kp UP      &kp END     &kp INS     &kp LBRC    &kp RBRC    &kp LBKT    &kp RBKT    &kp LT      &kp GT       
+                &kp LEFT    &kp DOWN    &kp RIGHT   &kp DEL     &kp BSLH    &kp PIPE    &kp TILDE   &kp GRAVE   &kp EQUAL   &kp BSPC
+                &to DEFAULT &kp PG_UP   &kp PG_DN   &none       &none       &none       &kp CARET   &kp AMPS    &kp PRCNT   &kp RET
+
+                            &to DEFAULT &NUML NUM                      &kp SPACE                    &SYML SYM   &SHFT
             >;
         };
+
+        
+        sym_layer {
+            bindings = <        
+                                    &none                                                               &none
+        		    &bt BT_SEL 0            &bt BT_SEL 1            &bt BT_CLR          &bt BT_SEL 2            &bt BT_SEL 3
+
+                &none       &none       &none       &sys_reset  &ext_power EP_TOG   &none       &none           &none       &none           &none
+                &none       &none       &none       &none       &none               &none       &bl BL_INC      &none       &none           &none
+                &none       &none       &none       &none       &none               &bl BL_TOG  &bl BL_DEC      &none       &bootloader     &none
+
+                            &none       &none                           &out OUT_TOG                &to DEFAULT &none
+            >;
+        };
+
     };
 };
-
