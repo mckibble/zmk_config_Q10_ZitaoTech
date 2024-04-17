@@ -115,7 +115,7 @@
         };
     };
     behaviors {
-        SYML tap_dance_syml {
+        SYML: tap_dance_syml {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <500>;
