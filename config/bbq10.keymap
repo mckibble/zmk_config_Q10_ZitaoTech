@@ -34,64 +34,6 @@
 
 / {
 
-/*
-behaviors {
-        td0: tap_dance_0 {
-            compatible = "zmk,behavior-tap-dance";
-            #binding-cells = <0>;
-            tapping-term-ms = <400>;
-            bindings = <&mkp LCLK>, <&bt BT_CLR>;
-        };
-    };
-    behaviors {
-	    KPM: behavior_KPM {
-            compatible = "zmk,behavior-hold-tap";
-            label = "KPM";
-            #binding-cells = <2>;
-            flavor = "tap-preferred";
-            tapping-term-ms = <400>;
-            bindings = <&msc>, <&kp>;
-        };
-    };
-    behaviors {
-        hm2: homerow_mods_2 {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            tapping-term-ms = <500>;
-            bindings = <&ext_power &kp>;
-        };
-    };
-    behaviors {
-	alt_to: behavior_alt_to {
-            compatible = "zmk,behavior-hold-tap";
-            label = "alt_to";
-            #binding-cells = <2>;
-            flavor = "tap-preferred";
-            tapping-term-ms = <300>;
-            bindings = <&kp>, <&to>;
-        };
-    };
-    
-    behaviors {
-        tap: tap {
-            compatible = "zmk,behavior-macro-one-param";
-            #binding-cells = <1>;
-            // By default, macros will tap each behavior in the bindings list,
-            // so this will tap "&kp <param1>".
-            bindings = <&macro_param_1to1 &kp MACRO_PLACEHOLDER>;
-        };
-    
-        mtt: mod_tap_tap {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "tap-preferred";
-            tapping-term-ms = <200>;
-            quick-tap-ms = <125>;
-            require-prior-idle-ms = <125>;
-            bindings = <&tap>, <&tap>;
-        };
-    };
-*/
     behaviors {
         SHFT: tap_dance_1 {
             compatible = "zmk,behavior-tap-dance";
@@ -124,6 +66,7 @@ behaviors {
             bindings = <&sl SYM>, <&to SYM>;
         };
     };
+    
     behaviors {
         hm: homerow_mods {
             compatible = "zmk,behavior-hold-tap";
