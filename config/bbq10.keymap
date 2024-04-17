@@ -33,7 +33,9 @@
 };
 
 / {
-    behaviors {
+
+/*
+behaviors {
         td0: tap_dance_0 {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
@@ -89,7 +91,7 @@
             bindings = <&tap>, <&tap>;
         };
     };
-
+*/
     behaviors {
         SHFT: tap_dance_1 {
             compatible = "zmk,behavior-tap-dance";
