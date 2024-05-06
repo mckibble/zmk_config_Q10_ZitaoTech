@@ -86,10 +86,10 @@
             bindings
                 = <&macro_press &kp LCTRL>
                 , <&macro_press &kp LSHFT>
-                , <&macro_tap &kp u> 
+                , <&macro_tap &kp U> 
                 , <&macro_release &kp LSHFT>
                 , <&macro_release &kp LCTRL>
-                , <&macro_tap &kp a &kp 3 &kp ENTER> 
+                , <&macro_tap &kp A &kp N3 &kp ENTER> 
                 ;
         };
     };
