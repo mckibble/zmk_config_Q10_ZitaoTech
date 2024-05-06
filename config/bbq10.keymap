@@ -32,6 +32,7 @@
     release-after-ms = <2500>;
 };
 
+
 / {
 
     behaviors {
@@ -76,7 +77,22 @@
         };
     };
 
-
+    
+    macros {
+        // Pound Sterling (£) sign for Linux: ctrl+shift+u a 3 [enter]
+        sterling: sterling {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_press &kp LSHFT>
+                , <&macro_tap &kp u> 
+                , <&macro_release &kp LSHFT>
+                , <&macro_release &kp LCTRL>
+                , <&macro_tap &kp a &kp 3 &kp ENTER> 
+                ;
+        };
+    };
 
 
     keymap {
@@ -121,7 +137,7 @@
 
                 &kp HASH    &kp N1      &kp N2      &kp N3      &kp LPAR    &kp RPAR    &kp UNDER   &kp MINUS   &kp PLUS    &kp AT
                 &kp STAR    &kp N4      &kp N5      &kp N6      &kp SLASH   &kp COLON   &kp SEMI    &kp APOS    &kp DQT     &kp BSPC
-                &ALTL       &kp N7      &kp N8      &kp N9      &kp QMARK   &kp EXCL    &kp COMMA   &kp DOT     &kp DLLR    &kp RET
+                &ALTL       &kp N7      &kp N8      &kp N9      &kp QMARK   &kp EXCL    &kp COMMA   &kp DOT     &sterling   &kp RET
 
                             &to 0       &kp N0                         &kp SPACE                    &SYML       &SHFT
 
