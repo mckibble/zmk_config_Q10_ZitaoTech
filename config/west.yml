@@ -1,9 +1,9 @@
 manifest:
   remotes:
-    - name: zmkfirmware
-      url-base: https://github.com/zmkfirmware
-    - name: ZitaoTech
-      url-base: https://github.com/ZitaoTech
+    # Using this fork with Github Actions
+    # https://gist.github.com/urob/68a1e206b2356a01b876ed02d3f542c7
+    - name: mckibble
+      url-base: https://github.com/mckibble
   projects:
     - name: zmk
       remote: ZitaoTech
