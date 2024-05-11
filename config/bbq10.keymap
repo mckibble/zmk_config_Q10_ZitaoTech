@@ -18,6 +18,7 @@
 #define NUM 1
 #define ALT 2
 #define SYM 3
+#define FUN 4
 
 
 // Standard Behavior Configuration:
