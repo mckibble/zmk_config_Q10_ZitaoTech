@@ -6,7 +6,7 @@ manifest:
       url-base: https://github.com/mckibble
   projects:
     - name: zmk
-      remote: ZitaoTech
+      remote: mckibble
       revision: bbkeyboard_tp
       import: app/west.yml
   self:
