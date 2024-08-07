@@ -1,4 +1,4 @@
- /*
+/*
  * Copyright (c) 2023 ZitaoTech
  * SPDX-License-Identifier: MIT
  * 
@@ -17,8 +17,8 @@
  
 #define NUM 1
 #define ALT 2
-#define SYM 3
-#define FUN 4
+#define NAV 3
+#define SYM 4
 
 
 // Standard Behavior Configuration:
@@ -35,6 +35,19 @@
 
 
 / {
+    combos {
+        compatible = "zmk,combos";
+
+        // combo to enter the SYM layer for BT settings, press Mic and Sym together
+        // 0..41 keys, Mic is 38 and Sym is 40
+        combo_sym {
+            timeout-ms = <50>;
+            key-positions = <38 40>;
+            bindings = <&to SYM>;
+            require-prior-idle-ms: 1000;
+        };
+    };
+    
 
     behaviors {
         SHFT: tap_dance_1 {
@@ -43,33 +56,28 @@
             tapping-term-ms = <500>;
             bindings = <&sk LSHFT>, <&kp CLCK>;
         };
-    };
-    behaviors {
+
         NUML: tap_dance_numl {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <500>;
             bindings = <&sl NUM>, <&to NUM>;
         };
-    };
-    behaviors {
+
         ALTL: tap_dance_altl {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <400>;
             bindings = <&sl ALT>, <&to ALT>;
         };
-    };
-    behaviors {
-        SYML: tap_dance_syml {
+
+        NAVL: tap_dance_navl {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
-            tapping-term-ms = <500>;
-            bindings = <&sl SYM>, <&to SYM>;
+            tapping-term-ms = <400>;
+            bindings = <&sl NAV>, <&to NAV>;
         };
-    };
 
-    behaviors {
         hm: homerow_mods {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -77,8 +85,8 @@
             bindings = <&out &kp>;
         };
     };
-
     
+
     macros {
         // Pound Sterling (£) sign for Linux: ctrl+shift+u a 3 [enter]
         sterling: sterling {
@@ -87,11 +95,34 @@
             bindings
                 = <&macro_press &kp LCTRL>
                 , <&macro_press &kp LSHFT>
-                , <&macro_tap &kp U> 
+                , <&macro_tap &kp U>
                 , <&macro_release &kp LSHFT>
                 , <&macro_release &kp LCTRL>
                 , <&macro_tap &kp A &kp N3 &kp ENTER> 
                 ;
+        };
+
+        
+        // Bluetooth macros to enable only one active BT pairing and turn off the rest
+        bt0: bt0 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 0 &bt BT_DISC 1 &bt BT_DISC 2 &bt BT_DISC 3 &bt BT_DISC 4>;
+        };
+        bt1: bt1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 1 &bt BT_DISC 0 &bt BT_DISC 2 &bt BT_DISC 3 &bt BT_DISC 4>;
+        };
+        bt2: bt2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 2 &bt BT_DISC 0 &bt BT_DISC 1 &bt BT_DISC 3 &bt BT_DISC 4>;
+        };
+        bt3: bt3 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 3 &bt BT_DISC 0 &bt BT_DISC 1 &bt BT_DISC 2 &bt BT_DISC 4>;
         };
     };
 
@@ -118,29 +149,29 @@
                               \      aA        |       0        |                    SPACE                  |          SYM          |         aA    /
                                 -------------------------------------------------------------------------------------------------------------------
         */
-                                        &sk LALT                                                        &mkp RCLK
-		                    &sk  LCTRL          &sk LGUI            &mkp LCLK               &kp ESC             &kp TAB
+                                        &mkp LCLK                                                       &mkp RCLK
+		                    &sk  LCTRL          &sk LGUI            &mkp MCLK               &kp ESC             &kp TAB
 
                 &kp Q       &kp W       &kp E       &kp R       &kp T       &kp Y       &kp U       &kp I       &kp O       &kp P
                 &kp A       &kp S       &kp D       &kp F       &kp G       &kp H       &kp J       &kp K       &kp L       &kp BSPC
                 &ALTL       &kp Z       &kp X       &kp C       &kp V       &kp B       &kp N       &kp M       &kp DLLR    &kp RET
 
-                            &SHFT       &NUML                          &kp SPACE                    &SYML       &SHFT
+                            &SHFT       &NUML                          &kp SPACE                    &NAVL       &SHFT
 
             >;
         };
-
+        
 
         num_layer {
             bindings = <        
-                                        &sk LALT                                                        &mkp RCLK
-		                    &sk  LCTRL          &sk LGUI            &mkp LCLK               &kp ESC             &kp TAB
+                                        &sk LALT                                                       &mkp RCLK
+		                    &sk  LCTRL          &sk LGUI            &mkp LCLK              &kp ESC              &kp TAB
 
                 &kp HASH    &kp N1      &kp N2      &kp N3      &kp LPAR    &kp RPAR    &kp UNDER   &kp MINUS   &kp PLUS    &kp AT
                 &kp STAR    &kp N4      &kp N5      &kp N6      &kp SLASH   &kp COLON   &kp SEMI    &kp APOS    &kp DQT     &kp BSPC
                 &ALTL       &kp N7      &kp N8      &kp N9      &kp QMARK   &kp EXCL    &kp COMMA   &kp DOT     &sterling   &kp RET
 
-                            &to 0       &kp N0                         &kp SPACE                    &SYML       &SHFT
+                            &to 0       &kp N0                         &kp SPACE                    &NAVL       &SHFT
 
             >;
         };
@@ -155,21 +186,35 @@
                 &kp LEFT    &kp DOWN    &kp RIGHT   &kp DEL     &kp BSLH    &kp PIPE    &kp TILDE   &kp GRAVE   &kp EQUAL   &kp BSPC
                 &to 0       &kp PG_UP   &kp PG_DN   &none       &none       &none       &kp CARET   &kp AMPS    &kp PRCNT   &kp RET
 
-                            &to 0       &NUML                          &kp SPACE                    &SYML       &SHFT
+                            &to 0       &NUML                          &kp SPACE                    &NAVL       &SHFT
             >;
         };
 
         
+        nav_layer {
+            bindings = <
+                                        &sk LALT                                                        &mkp RCLK
+                            &kp ESC             &sk LGUI            &mkp LCLK               &kp LC(LSHFT)       &kp LCTRL
+
+                &kp HOME   &kp UP      &kp END       &kp PG_UP   &kp LC(T)     &kp LC(LS(T))     &kp LC(W)     &kp LC(LS(TAB))     &kp LC(TAB)     &kp DEL
+                &kp LEFT   &kp DOWN    &kp RIGHT     &kp PG_DN   &none         &kp LA(LS(TAB))   &kp LA(TAB)   &kp LA(LS(TILDE))   &kp LA(TILDE)   &kp BSPC
+                &ALTL      &kp LC(Z)   &kp LS(DEL)   &LC(INS)    &KP LS(INS)   &none             &none         &none               &kp INS         &kp RET
+
+                            &to 0       &NUML                          &kp SPACE                    &to 0       &kp LEFT_SHIFT
+            >;
+        };
+        
+
         sym_layer {
             bindings = <        
                                     &none                                                               &none
-        		    &bt BT_SEL 0            &bt BT_SEL 1            &bt BT_CLR          &bt BT_SEL 2            &bt BT_SEL 3
+        		            &bt0            &bt1                    &bt BT_CLR              &bt2                &bt3
 
-                &none       &none       &none       &sys_reset  &ext_power EP_TOG   &none       &none           &none       &none           &none
-                &none       &none       &none       &none       &none               &none       &bl BL_INC      &none       &none           &none
-                &none       &none       &none       &none       &none               &bl BL_TOG  &bl BL_DEC      &none       &bootloader     &none
+                &none   &none   &none   &sys_reset   &ext_power EP_TOG   &none        &none        &none        &none         &none
+                &none   &none   &none   &none        &none               &none        &none        &none        &none         &none
+                &to 0   &none   &none   &none        &none               &bl BL_TOG   &bl BL_INC   &bl BL_DEC   &bootloader   &none
 
-                            &none       &none                           &out OUT_TOG                &to 0       &none
+                            &none       &to 0                           &out OUT_TOG                &to 0       &none
             >;
         };
 
