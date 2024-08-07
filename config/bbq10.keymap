@@ -198,7 +198,7 @@
 
                 &kp HOME   &kp UP      &kp END       &kp PG_UP     &kp LC(T)     &kp LC(LS(T))     &kp LC(W)     &kp LC(LS(TAB))     &kp LC(TAB)     &kp DEL
                 &kp LEFT   &kp DOWN    &kp RIGHT     &kp PG_DN     &none         &kp LA(LS(TAB))   &kp LA(TAB)   &kp LA(LS(TILDE))   &kp LA(TILDE)   &kp BSPC
-                &ALTL      &kp LC(Z)   &kp LS(DEL)   &kp LC(INS)   &KP LS(INS)   &none             &none         &none               &kp INS         &kp RET
+                &ALTL      &kp LC(Z)   &kp LS(DEL)   &kp LC(INS)   &kp LS(INS)   &none             &none         &none               &kp INS         &kp RET
 
                             &to 0       &NUML                          &kp SPACE                    &to 0       &kp LEFT_SHIFT
             >;
