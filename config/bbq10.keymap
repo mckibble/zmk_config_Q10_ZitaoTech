@@ -150,7 +150,7 @@
                                 -------------------------------------------------------------------------------------------------------------------
         */
                                         &mkp LCLK                                                       &mkp RCLK
-		                    &sk  LCTRL          &sk LGUI            &mkp MCLK               &kp ESC             &kp TAB
+		                    &sk  LCTRL          &sk LGUI            &mkp LCLK               &kp ESC             &kp TAB
 
                 &kp Q       &kp W       &kp E       &kp R       &kp T       &kp Y       &kp U       &kp I       &kp O       &kp P
                 &kp A       &kp S       &kp D       &kp F       &kp G       &kp H       &kp J       &kp K       &kp L       &kp BSPC
@@ -211,8 +211,8 @@
         		            &bt0            &bt1                    &bt BT_CLR              &bt2                &bt3
 
                 &none   &none   &none   &sys_reset   &ext_power EP_TOG   &none        &none        &none        &none         &none
-                &none   &none   &none   &none        &none               &none        &none        &none        &none         &none
-                &to 0   &none   &none   &none        &none               &bl BL_TOG   &bl BL_INC   &bl BL_DEC   &bootloader   &none
+                &none   &none   &none   &none        &none               &none        &bl BL_INC   &none        &none         &none
+                &to 0   &none   &none   &none        &none               &bl BL_TOG   &bl BL_DEC   &none        &bootloader   &none
 
                             &none       &to 0                           &out OUT_TOG                &to 0       &none
             >;
